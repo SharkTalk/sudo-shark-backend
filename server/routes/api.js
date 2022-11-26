@@ -1,12 +1,13 @@
 const express = require('express');
+const apiController = require('../controllers/apiController');
 
 const router = express.Router();
 
-router.get('/', (req, res, next) => {
+router.get('/', apiController.getTranslation, (req, res, next) => {
   res
     .setHeader('Access-Control-Allow-Origin', '*')
     .status(200)
-    .json({ result: 'found' });
+    .json(res.locals.text);
 });
 
 // ADD GET MORE CHARACTERS ROUTE HANDLER HERE
