@@ -20,9 +20,12 @@ app.use(cors());
  * require routers
  */
 const apiRouter = require("./routes/api");
+const userRouter = require("./routes/user");
 
 // route handler to respond with main app
 app.use("/api", apiRouter);
+
+app.use("/user", userRouter);
 
 app.use("*", (req, res, next) => {
   const errorObj = {
