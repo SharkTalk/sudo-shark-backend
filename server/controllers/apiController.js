@@ -11,6 +11,7 @@ const apiController = {};
 
 // middleware for translating code into plain english
 apiController.getTranslation = async (req, res, next) => {
+  console.log(req.body);
   // get the data from the body on the request
   const { language } = req.body; // Python, JavaScript...
   const { text } = req.body; // code...
