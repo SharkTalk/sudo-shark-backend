@@ -48,16 +48,4 @@ userController.login = async (req, res, next) => {
   }
 };
 
-// save request
-// userController.saveRequest = async (req, res, next) => {
-//   const (username, code, translation) =
-// }
-
-// get all requests
-
-// delete request
-
 module.exports = userController;
-
-// const users = await db.User.findAll();
-// console.log(users);
