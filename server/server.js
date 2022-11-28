@@ -21,6 +21,10 @@ const apiRouter = require('./routes/api');
 // route handler to respond with main app
 app.use('/api', apiRouter);
 
+app.get('/__test', (req, res) => {
+  res.sendStatus(200);
+});
+
 app.use('*', (req, res, next) => {
   const errorObj = {
     log: 'Page not found',

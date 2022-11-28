@@ -9,6 +9,11 @@ const openai = new OpenAIApi(configuration);
 
 const apiController = {};
 
+apiController.basicTestRunner = (req, res, next) => {
+  if (req.body.language === '__test') res.status(200).send(req.body.text);
+  else next();
+};
+
 // middleware for translating code into plain english
 apiController.getTranslation = async (req, res, next) => {
   console.log(req.body);
@@ -24,7 +29,8 @@ apiController.getTranslation = async (req, res, next) => {
     // making a call to the Dall-e API
     const response = await openai.createCompletion({
       model: 'text-davinci-002',
-      prompt: `Summarize this for a second-grade student:\n${language} \n${text}`,
+      // prompt: `Summarize this for a second-grade student:\n${language} \n${text}`,
+      prompt: `Summarize this for a second-grade student:\n${text}`,
       temperature: tempreture,
       max_tokens: 256,
       top_p: 1,
