@@ -43,7 +43,10 @@ userController.login = async (req, res, next) => {
         username,
       },
     });
-    if (user[0].password === password) return next();
+    if (user[0].password === password) {
+      res.locals.user = user[0].username;
+      return next();
+    }
     return res.status(403).send('Incorrect username or password');
   } catch (error) {
     return res.status(403).send('Incorrect username or password');

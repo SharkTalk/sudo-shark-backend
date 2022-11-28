@@ -1,5 +1,6 @@
 // save request
 const db = require('../models/userModels');
+const { request } = require('../server');
 
 const requestController = {};
 
@@ -45,6 +46,7 @@ requestController.saveRequest = async (req, res, next) => {
 // get all requests of a user
 requestController.getRequests = async (req, res, next) => {
   const { username } = req.body;
+  console.log('received request for ', username);
   // if user not logged in, do nothing
   if (!username) return next();
   // query db to find correct user
@@ -59,7 +61,15 @@ requestController.getRequests = async (req, res, next) => {
         user_id: user[0].id,
       },
     });
-    res.locals.requests = requests;
+    const requestsArray = [];
+    requests.forEach((el) => {
+      requestsArray.push({
+        code: el.code,
+        translation: el.translation,
+      });
+    });
+    console.log(requestsArray);
+    res.locals.requests = requestsArray;
     return next();
   } catch (error) {
     return next({
