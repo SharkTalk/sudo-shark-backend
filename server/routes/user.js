@@ -11,7 +11,7 @@ router.post('/login', userController.login, (req, res) => res.status(200).send('
 
 router.post('/saveRequest', requestController.saveRequest, (req, res) => res.status(200).send('request saved'));
 
-router.get('/getRequests', requestController.getRequests, (req, res) => res.status(200).send('requests'));
+router.get('/getRequests', requestController.getRequests, (req, res) => res.status(200).json(res.locals.requests));
 
 router.delete('/deleteRequests', requestController.deleteRequest, (req, res) => res.status(200).send('request deleted'));
 

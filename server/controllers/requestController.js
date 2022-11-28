@@ -23,14 +23,12 @@ requestController.saveRequest = async (req, res, next) => {
         username,
       },
     });
-    // console.log('got user', user);
     // create new request model and add code and translation to it
     const newReq = db.Request.build({
       code,
       translation,
       user_id: user[0].id,
     });
-    // console.log('created request', newReq);
     // add connection between user and request with association -> user.hasMany(request)
     await newReq.save();
     // await db.sequelize.sync();
@@ -47,7 +45,29 @@ requestController.saveRequest = async (req, res, next) => {
 // get all requests of a user
 requestController.getRequests = async (req, res, next) => {
   const { username } = req.body;
+  // if user not logged in, do nothing
+  if (!username) return next();
   // query db to find correct user
+  try {
+    const user = await db.User.findAll({
+      where: {
+        username,
+      },
+    });
+    const requests = await db.Request.findAll({
+      where: {
+        user_id: user[0].id,
+      },
+    });
+    res.locals.requests = requests;
+    return next();
+  } catch (error) {
+    return next({
+      log: 'Error in requestController.getRequests',
+      status: 400,
+      message: { err: error },
+    });
+  }
   // query db to find all requests in request table associated with user
   // add json object to res.locals with all request -> array of key/value pairs
 };
