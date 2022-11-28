@@ -27,9 +27,8 @@ const User = sequelize.define('User', {
     allowNull: true,
   },
 });
-sequelize.sync();
 
-const Requests = sequelize.define('Request', {
+const Request = sequelize.define('Request', {
   id: {
     type: DataTypes.INTEGER,
     autoIncrement: true,
@@ -38,9 +37,20 @@ const Requests = sequelize.define('Request', {
   },
   code: {
     type: DataTypes.STRING,
-    translation: DataTypes.STRING,
+    allowNull: false,
+  },
+  translation: {
+    type: DataTypes.STRING,
+    allowNull: false,
   },
 });
+
+User.hasMany(Request, {
+  foreignKey: 'user_id',
+});
+Request.belongsTo(User);
+
+sequelize.sync();
 
 async function auth() {
   try {
@@ -51,4 +61,6 @@ async function auth() {
   }
 }
 
-module.exports = { auth, User, sequelize };
+module.exports = {
+  auth, User, Request, sequelize,
+};
